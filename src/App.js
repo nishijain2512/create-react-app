@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 //import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
+//---------------NOTES-----------------
+// # radium is a package which help to use css psedo selectors in in-line styling and media queries. As the properties added using radium are not defauult JS properties of styling,
+//   we define these properties as ':hover' (in string with :)
+
+//---------------------------------------
 //---------------using STATE in CLASS-----------------
 class App extends Component {
   state = {
@@ -66,45 +72,69 @@ deletePersonHandler = personIndex => {
   render() {
   //---------Inline styling example----------
   const style = {
-  backgroundColor: 'green',
-  border: '1px solid blue',
-  font:'inherent',
-  padding: '8px',
-  cursor: 'pointer'
-};
-//-----------------------------------
-
-let person = null;
-
-if (this.state.showPersons) {
-  person = (
-  <div>
-    {
-      (this.state.persons.map((individual, index) => {
-        return <Person 
-        click={() => this.deletePersonHandler(index)}
-        name={individual.name} 
-        age={individual.age}
-        key={individual.id}//key property is to give all data elements a unique id for react to help identify while updating DOM.
-        changed={(event) => this.nameChangedHandler(event, individual.id)}/>
-      }))
+    backgroundColor: 'green',
+    color: 'white',
+    border: '1px solid blue',
+    font:'inherent',
+    padding: '8px',
+    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: 'lightgreen',
+      color: 'black'
     }
-  </div>
-  );
-}
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App.</h1>
-        <button 
-        style={style}//inline style for button
-        onClick= {this.togglePersonsHandler}>Toggle Persons</button>
-        {person}
-      </div>
+  };
+  //-----------------------------------
+
+  let person = null;
+
+  if (this.state.showPersons) {
+    person = (
+    <div>
+      {
+        (this.state.persons.map((individual, index) => {
+          return <Person 
+          click={() => this.deletePersonHandler(index)}
+          name={individual.name} 
+          age={individual.age}
+          key={individual.id}//key property is to give all data elements a unique id for react to help identify while updating DOM.
+          changed={(event) => this.nameChangedHandler(event, individual.id)}/>
+        }))
+      }
+    </div>
     );
+    style.backgroundColor = 'red';
+    style[':hover']= {
+      backgroundColor: 'salmon',
+      color: 'black'
+    }
   }
+
+  const classes = [];
+  if (this.state.persons.length <= 2){
+    classes.push('red');
+  }
+  if (this.state.persons.length <= 1){
+    classes.push('bold');
+  } 
+
+      return (
+        //.join method joins array element with a space and makes it a string as classname cannot be array, it need to be a string.
+        <StyleRoot>
+          <div className="App">
+            <h1>Hi, I'm a React App.</h1>
+            <p className={classes.join(' ')}>This is really working</p> 
+            <button 
+            style={style}//inline style for button
+            onClick= {this.togglePersonsHandler}>Toggle Persons</button>
+            {person}
+          </div>
+        </StyleRoot>
+        
+      );
+    }
 }
 
-export default App; 
+export default Radium(App); 
 //-----------------end of using STATE in CLASS-------------------
 
 /*---------------using HOOKS in FUNCTIONS--------------------------
