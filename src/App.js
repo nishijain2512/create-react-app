@@ -70,18 +70,19 @@ deletePersonHandler = personIndex => {
 
   render() {
   //---------Inline styling example----------
-  const style = {
-    backgroundColor: 'green',
-    color: 'white',
-    border: '1px solid blue',
-    font:'inherent',
-    padding: '8px',
-    cursor: 'pointer',
+  // const style = {
+  //   backgroundColor: 'green',
+  //   color: 'white',
+  //   border: '1px solid blue',
+  //   font:'inherent',
+  //   padding: '8px',
+  //   cursor: 'pointer',
     
-  };
+  // };
   //-----------------------------------
 
   let person = null;
+  let btnClass = '';
 
   if (this.state.showPersons) {
     person = (
@@ -98,8 +99,8 @@ deletePersonHandler = personIndex => {
       }
     </div>
     );
-    style.backgroundColor = 'red';
-   
+    //style.backgroundColor = 'red';
+   btnClass = classes.red;
   }
 
   const asignedClasses = [];
@@ -116,7 +117,8 @@ deletePersonHandler = personIndex => {
             <h1>Hi, I'm a React App.</h1>
             <p className={asignedClasses.join(' ')}>This is really working</p> 
             <button 
-            style={style}//inline style for button
+            className={btnClass}
+            //style={style}//inline style for button
             onClick= {this.togglePersonsHandler}>Toggle Persons</button>
             {person}
           </div>
