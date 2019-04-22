@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 //import React, { useState } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 //---------------NOTES-----------------
 // # radium is a package which help to use css psedo selectors in in-line styling and media queries. As the properties added using radium are not defauult JS properties of styling,
@@ -82,44 +83,30 @@ deletePersonHandler = personIndex => {
   //-----------------------------------
 
   let person = null;
-  let btnClass = '';
 
   if (this.state.showPersons) {
     person = (
     <div>
       {
-        (this.state.persons.map((individual, index) => {
-          return <Person 
-          click={() => this.deletePersonHandler(index)}
-          name={individual.name} 
-          age={individual.age}
-          key={individual.id}//key property is to give all data elements a unique id for react to help identify while updating DOM.
-          changed={(event) => this.nameChangedHandler(event, individual.id)}/>
-        }))
+        <Persons 
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler} />
       }
     </div>
     );
     //style.backgroundColor = 'red';
-   btnClass = classes.red;
   }
 
-  const asignedClasses = [];
-  if (this.state.persons.length <= 2){
-    asignedClasses.push(classes.red);//we imported all the classes in .CSS file and use these class names to push
-  }
-  if (this.state.persons.length <= 1){
-    asignedClasses.push(classes.bold);
-  } 
+  
 
       return (
         //.join method joins array element with a space and makes it a string as classname cannot be array, it need to be a string.
           <div className={classes.App}>
-            <h1>Hi, I'm a React App.</h1>
-            <p className={asignedClasses.join(' ')}>This is really working</p> 
-            <button 
-            className={btnClass}
-            //style={style}//inline style for button
-            onClick= {this.togglePersonsHandler}>Toggle Persons</button>
+            <Cockpit 
+            persons={this.state.persons}
+            showPersons={this.state.showPersons}
+            buttonClicked={this.togglePersonsHandler}/>
             {person}
           </div>
         
