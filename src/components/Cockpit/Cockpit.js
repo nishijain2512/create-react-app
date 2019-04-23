@@ -1,30 +1,39 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+
 import classes from './Cockpit.css';
 
-const Cockpit = (props) => {
+const cockpit = ( props ) => {
+  
+  useEffect(() => {
+    console.log('[Cockpit.js] useEffect');
+    //http request....
+    setTimeout(() => {
+      alert('Saved data to cloud!!')
+    }, 1000);
+  }, [props.persons]);//we can control useEffect to run by adding some condition like here we added [props.persons so that useEffect only runs when there is some in my persons state.]
 
-    const asignedClasses = [];
-    let btnClass = '';
-    if(props.showPersons){
-        btnClass = classes.red;
-    }
+  const assignedClasses = [];
+  let btnClass = '';
+  if (props.showPersons) {
+      btnClass = classes.Red;
+  }
 
-    if (props.persons.length <= 2){
-        asignedClasses.push(classes.red);//we imported all the classes in .CSS file and use these class names to push
-    }
-    if (props.persons.length <= 1){
-        asignedClasses.push(classes.bold);
-    } 
-    return(
-        <div className={classes.Cockpit}>
-            <h1>Hi, I'm a React App.</h1>
-            <p className={asignedClasses.join(' ')}>This is really working</p> 
-            <button 
-            className={btnClass}
-            //style={style}//inline style for button
-            onClick= {props.buttonClicked}>Toggle Persons</button>
-        </div>
-    );
+  if ( props.personsLength <= 2 ) {
+    assignedClasses.push( classes.red ); // classes = ['red']
+  }
+  if ( props.personsLength <= 1 ) {
+    assignedClasses.push( classes.bold ); // classes = ['red', 'bold']
+  }
+
+  return (
+      <div className={classes.Cockpit}>
+          <h1>{props.title}</h1>
+          <p className={assignedClasses.join( ' ' )}>This is really working!</p>
+          <button
+              className={btnClass}
+              onClick={props.clicked}>Toggle Persons</button>
+      </div>
+  );
 };
 
-export default Cockpit;
+export default React.memo(cockpit);
